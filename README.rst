@@ -15,6 +15,9 @@ All credit goes to the original author, Jacob Vlijm. Thanks!
 See http://askubuntu.com/a/648800/20835
 
 TODO: Add wmctrl or ruamel.emwh as dependency
+TODO: Add xprop as dependency
+TODO: Don't call commands, use Python libraries
+TODO: Write some tests
 
 
 Full documentation and API
