@@ -54,6 +54,7 @@ setup(
         # Others
         ],
     entry_points={
+        'console_scripts': ['list_windows=text_based_switcher.__main__:main']
         },
     tests_require=dev_require,
     test_suite='tests.all_tests',
