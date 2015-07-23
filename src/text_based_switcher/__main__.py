@@ -44,13 +44,13 @@ class Application(object):
         # self.args = ap.parse_args(args=argv[1:])
         parser = optparse.OptionParser()
         parser.add_option("-a", "--application",
-                action="store_true",
+                action="store_false",
                 help="Sort on application name")
         parser.add_option("-w", "--workspace",
                 action="store_true",
                 help="Sort on workspace number")
         parser.add_option("-t", "--window",
-                action="store_true",
+                action="store_false",
                 help="Sort on window title")
 
         (options, __) = parser.parse_args()
@@ -159,9 +159,14 @@ class Application(object):
                          ) for window in window_list]))
 
         # finally, call the window list
-        w_id = subprocess.check_output(["/bin/bash", "-c", cmd]
-            ).decode("utf-8").split("|")[0]
-        subprocess.Popen(["wmctrl", "-ia", w_id])
+        try:
+            w_id = subprocess.check_output(["/bin/bash", "-c", cmd]
+                ).decode("utf-8").split("|")[0]
+            subprocess.Popen(["wmctrl", "-ia", w_id])
+        except subprocess.CalledProcessError:
+            pass
+
+
 
 
 if __name__ == '__main__':
