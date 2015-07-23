@@ -35,19 +35,3 @@ try:
 except:
     LOG.warning("Could not get the package version from pkg_resources")
     __version__ = 'unknown'
-
-# FIXME: This is just for checking doctests setup. You may remove this function.
-# See tests/test_doctests.py from this distro root
-def identity(obj):
-    """Returns the ``obj`` parameter itself
-
-    :param obj: The parameter to be returned
-    :return: ``obj`` itself
-
-        >>> identity(5)
-        5
-        >>> foo = 2
-        >>> identity(foo) is foo
-        True
-    """
-    return obj
