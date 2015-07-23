@@ -14,16 +14,15 @@ window to the front.
 All credit goes to the original author, Jacob Vlijm. Thanks!
 See http://askubuntu.com/a/648800/20835
 
-TODO: Add wmctrl or ruamel.emwh as dependency
-TODO: Add xprop as dependency
-TODO: Don't call commands, use Python libraries
-TODO: Write some tests
 
+TODO
+====
 
-Full documentation and API
-==========================
+- Add wmctrl or ruamel.emwh as dependency
+- Add xprop as dependency
+- Don't call commands, use Python libraries
+- Write some tests
 
-FIXME: Provide the URL of the documentation (@ readthedocs.org ?)
 
 Developer notes
 ===============
@@ -56,6 +55,6 @@ Source code
 
   https://github.com/jean/text-based-switcher
 
-Issues tracker
+Issue tracker
 
   https://github.com/jean/text-based-switcher/issues
