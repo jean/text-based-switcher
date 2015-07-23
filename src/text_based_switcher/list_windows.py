@@ -131,10 +131,10 @@ cmd = (u"zenity --list --hide-column=4 --print-column=4 "
         (" ").join(
             [(" ").join(
                 [
-                '"%s"'% w[i1],
-                '"%s"'% w[i2],
+                '"%s"'% w[i1].replace('"', '\\"'),
+                '"%s"'% w[i2].replace('"', '\\"'),
                 '"%s"'% w[i3].replace('-', '_'),
-                '"%s"'% w[0][0]]
+                '"%s"'% w[0][0].replace('"', '\\"')]
                 ) for w in window_list]
             )
         )
