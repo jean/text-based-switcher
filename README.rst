@@ -11,6 +11,15 @@ This switcher shows a list of window titles and allows you to choose one
 by typing first character(s) of the sought window. Press return to bring the
 window to the front.
 
+Usage
+=====
+
+The script needs ``wmctrl`` and ``xprop``. On Ubuntu:
+
+.. code:: console
+
+    sudo apt-get install wmctrl x11-utils
+
 All credit goes to the original author, Jacob Vlijm. Thanks!
 See http://askubuntu.com/a/648800/20835
 
