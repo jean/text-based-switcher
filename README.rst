@@ -11,6 +11,9 @@ This switcher shows a list of window titles and allows you to choose one
 by typing first character(s) of the sought window. Press return to bring the
 window to the front.
 
+All credit goes to the original author, Jacob Vlijm. Thanks!
+See http://askubuntu.com/a/648800/20835
+
 Usage
 =====
 
@@ -18,11 +21,31 @@ The script needs ``wmctrl`` and ``xprop``. On Ubuntu:
 
 .. code:: console
 
-    sudo apt-get install wmctrl x11-utils
+    $ sudo apt-get install wmctrl x11-utils
 
-All credit goes to the original author, Jacob Vlijm. Thanks!
-See http://askubuntu.com/a/648800/20835
+Install from PyPI:
 
+.. code:: console
+
+    $ sudo pip install text_based_switcher
+
+Test-run it:
+
+.. code:: console
+
+    $ list_windows --workspace
+    $ list_windows --application
+    $ list_windows --window
+
+If it works, add one or more of the preferred commands to one or more shortcut
+keys: choose:
+_System Settings_ > _Keyboard_ > _Shortcuts_ > _Custom Shortcuts_.
+
+Click the "+" and add the command.
+
+If you do a local install (``--user`` option), Compiz won't get the right
+Python path.
+You can fix this by hacking ``sys.path`` in the installed script.
 
 TODO
 ====
@@ -45,7 +68,9 @@ Grab the source from the SCM repository:
   $ python setup.py develop
   $ pip install text-based-switcher[dev]
 
-Run the tests:
+If you install 
+
+Run the tests (there are no tests yet!):
 
 .. code:: console
 
