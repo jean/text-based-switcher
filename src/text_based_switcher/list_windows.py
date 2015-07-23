@@ -98,13 +98,6 @@ for w in window_list:
             ws_columns +
             (absolute_location[0]/resolution[0])+1)
 
-    #dbg
-    if viewport < 1:
-        print viewport
-        print relative_location
-        print vector
-        print absolute_location
-
     if viewport == current_viewport:
         viewport = str(viewport)+"*"
     else:
@@ -140,7 +133,7 @@ cmd = (u"zenity --list --hide-column=4 --print-column=4 "
                 [
                 '"%s"'% w[i1],
                 '"%s"'% w[i2],
-                '"%s"'% w[i3],
+                '"%s"'% w[i3].replace('-', '_'),
                 '"%s"'% w[0][0]]
                 ) for w in window_list]
             )
