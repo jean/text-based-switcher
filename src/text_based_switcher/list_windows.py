@@ -21,22 +21,6 @@ parser.add_option("-t", "--window",
 
 (options, __) = parser.parse_args()
 
-# list (column) header titles and their (data) position in the produced window data list
-cols = [["Workspace", -1], ["Application name", -2] , ["Window name", -3]]
-
-# rearrange columns, depending on the chosen option
-if options.application:
-    cols = [cols[1], cols[2], cols[0]]
-elif options.workspace:
-    cols = [cols[0], cols[2], cols[1]]
-elif options.window:
-    cols = [cols[2], cols[1], cols[0]]
-
-# extract headers, list positions, to be used in the zenity list
-col1 = cols[0][0]; i1 = cols[0][1]
-col2 = cols[1][0]; i2 = cols[1][1]
-col3 = cols[2][0]; i3 = cols[2][1]
-
 # just a helper function
 get = lambda cmd: subprocess.check_output([
     "/bin/bash", "-c", cmd
@@ -87,9 +71,9 @@ for i, w in enumerate(window_list):
 window_list = [w for w in window_list if normal_window(w[0][0])]
 
 # adding the viewport to the window's data
-for w in window_list:
-    w.append(get("ps -p "+w[0][2]+" -o comm=").strip())
-    relative_location = [int(n) for n in w[0][3:5]]
+for window in window_list:
+    window.append(get("ps -p "+window[0][2]+" -o comm=").strip())
+    relative_location = [int(n) for n in window[0][3:5]]
     absolute_location = [
             relative_location[0]+vector[0],
             relative_location[1]+vector[1]]
@@ -99,46 +83,45 @@ for w in window_list:
             (absolute_location[0]/resolution[0])+1)
 
     if viewport == current_viewport:
-        viewport = str(viewport)+"*"
+        viewport = "*"+str(viewport)
     else:
         viewport = str(viewport)
-    w.append(viewport)
+    if viewport.startswith('-'):
+        viewport = viewport.replace('-', '_')
+    window.append(viewport)
 
 # set sorting rules
 if options.application:
-    window_list.sort(key=lambda x: x[-2])
+    window_list.sort(key=lambda x: (x[-2].lower(), x[-1], x[-3].lower()))
 elif options.workspace:
-    window_list.sort(key=lambda x: x[-1])
+    window_list.sort(key=lambda x: (x[-1], x[-3].lower(), x[-2].lower()))
 elif options.window:
-    window_list.sort(key=lambda x: x[-3])
+    window_list.sort(key=lambda x: (x[-3].lower(), x[-1], x[-2].lower()))
 
 # calculate width and height of the zenity window:
 # height = 140px + 23px per line
-h = str(140+(len(window_list)*23))
+height = str(140+(len(window_list)*23))
 
 # width = 250px + 8px per character (of the longest window title)
-w = str(250+(max([len(w[-3]) for w in window_list])*8))
+width = str(250+(max([len(window[-3]) for window in window_list])*8))
+
+escape = lambda s: s.replace('"', '\\"')
 
 # define the zenity window's content
 cmd = (u"zenity --list --hide-column=4 --print-column=4 "
         "--title='Window list' "
-        "--width="+w+" "
-        "--height="+h+" "
-        "--column='"+col1+"' "
-        "--column='"+col2+"' "
-        "--column='"+col3+"' "
-        "--column='w_id' " + 
-        (" ").join(
+        "--width=%s "% width +
+        "--height=%s "% height +
+        "--column='Window name' "
+        "--column='Application name' "
+        "--column='Workspace' "
+        "--column='w_id' " + " ".join(
             [(" ").join(
-                [
-                '"%s"'% w[i1].replace('"', '\\"'),
-                '"%s"'% w[i2].replace('"', '\\"'),
-                '"%s"'% w[i3].replace('-', '_'),
-                '"%s"'% w[0][0].replace('"', '\\"')]
-                ) for w in window_list]
-            )
-        )
-
+                ['"%s"'% escape(window[-3]), # window title
+                 '"%s"'% escape(window[-2]), # application name
+                 '"%s"'% escape(window[-1]), # workspace name
+                 '"%s"'% escape(window[0][0])]
+                 ) for window in window_list]))
 
 # finally, call the window list
 try:
